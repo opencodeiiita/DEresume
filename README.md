@@ -18,7 +18,7 @@ Imagine a world where resumes are not just documents but verifiable proof of pro
 * In case of no activity on an issue even after 2 days, the issue will be reassigned. If you have difficulty approaching an issue, feel free to ask on our Discord channel.<br>
 ## Guidelines
 * Fork the repository to your github account.<br>
-* Clone it to your local setup by using git clone <repo link><br>
+* Clone it to your local setup by using `git clone <repo link>` <br>
 * Navigate to the respective folder in which the code need to be updated or added.<br>
 * Do the necessary changes according to the issue assigned.<br>
 * All set! Once you are confident in your work, push your code and create a pull request (PR) to the main branch of the upstream repository with proper descriptions/comments in the code explaining what you did and wait until we review it.<br>
