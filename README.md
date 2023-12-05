@@ -4,7 +4,7 @@
 Imagine a world where resumes are not just documents but verifiable proof of professional achievements. Enter our solution, utilizing Soul-Bound-Tokens (SBTs), a digital token system. Organizations issue SBTs representing specific experiences. Applicants securely store these in blockchain wallets, crafting resumes dynamically from chosen SBTs. Employers gain trust in the hiring process by reviewing resumes backed by tamper-proof SBTs. Join us in shaping the future of transparent and trustworthy professional credential verification.
 # Claiming an issue
 .If you want to claim any issue (task), just reply with any message on that issue thread which justifies that you want to work on this issue. Ex :- Claim, I want to work on this issue, etc.<br>
-Issues will be given out on first come first serve basis.<br>
+.Issues will be given out on first come first serve basis.<br>
 .In case of no activity on an issue even after 2 days, the issue will be reassigned. If you have difficulty approaching an issue, feel free to ask on our Discord channel.<br>
 # Guidelines
 .Fork the repository to your github account.<br>
