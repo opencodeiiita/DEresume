@@ -1,7 +1,7 @@
 # DEresume
  Validating Resume using Ethereum and Polygon
  <h1 align="center">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Polygon_Blockchain_Matic_Logo.svg" height="200" width="200" alt="sol-sym">
+    <img src="https://ibb.co/d4HDSwq" height="200" width="200" alt="sol-sym">
 </h1>
 
 ## Description
