@@ -1,7 +1,7 @@
 # DEresume
  Validating Resume using Ethereum and Polygon
  <h1 align="center">
-    <img src="https://ibb.co/d4HDSwq" height="200" width="200" alt="sol-sym">
+    <img src="https://www.flickr.com/photos/199681945@N06/53379344230/in/dateposted-public/" height="200" width="200" alt="sol-sym">
 </h1>
 
 ## Description
