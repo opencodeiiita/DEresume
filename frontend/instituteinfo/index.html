@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institution Form</title>
+    <link href="f.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        #institutionForm {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body >
+    
+    <div id="particles-js">
+        <div id="root"></div>
+    </div>
+    <script src="particles.js"></script>
+    <script src="app.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        class InstitutionForm extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    institutionName: '',
+                    institutionDescription: '',
+                    walletId: '',
+                };
+            }
+
+            handleChange = (event) => {
+                this.setState({ [event.target.id]: event.target.value });
+            };
+
+            submitForm = () => {
+                // You can perform further actions with the captured data here
+                console.log('Institution Name:', this.state.institutionName);
+                console.log('Institution Description:', this.state.institutionDescription);
+                console.log('Wallet ID:', this.state.walletId);
+            };
+
+            render() {
+                return (
+                    <form id="institutionForm">
+                        <label htmlFor="institutionName">Institution Name:</label>
+                        <input type="text" id="institutionName" value={this.state.institutionName} onChange={this.handleChange} required />
+
+                        <label htmlFor="institutionDescription">Institution Description:</label>
+                        <textarea id="institutionDescription" rows="4" value={this.state.institutionDescription} onChange={this.handleChange} required></textarea>
+
+                        <label htmlFor="walletId">Wallet ID:</label>
+                        <input type="text" id="walletId" value={this.state.walletId} onChange={this.handleChange} required />
+
+                        <button type="button" onClick={this.submitForm}>Submit</button>
+                    </form>
+                );
+            }
+        }
+
+        ReactDOM.render(<InstitutionForm />, document.getElementById('root'));
+    </script>
+</body>
+</html>
