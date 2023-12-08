@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience Form</title>
+    <link href="f.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        #experienceForm {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js">
+        <div id="root"></div>
+    </div>
+    <script src="particles.js"></script>
+    <script src="app.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        class ExperienceForm extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    receiverWallet: '',
+                    experienceType: '',
+                    title: '',
+                    description: '',
+                    startDate: '',
+                    endDate: '',
+                };
+            }
+
+            handleChange = (event) => {
+                this.setState({ [event.target.id]: event.target.value });
+            };
+
+            submitForm = () => {
+                // You can perform further actions with the captured data here
+                console.log('Receiver Wallet:', this.state.receiverWallet);
+                console.log('Experience Type:', this.state.experienceType);
+                console.log('Title:', this.state.title);
+                console.log('Description:', this.state.description);
+                console.log('Start Date:', this.state.startDate);
+                console.log('End Date:', this.state.endDate);
+            };
+
+            render() {
+                return (
+                    <form id="experienceForm">
+                        <label htmlFor="receiverWallet">Receiver Wallet Address:</label>
+                        <input type="text" id="receiverWallet" value={this.state.receiverWallet} onChange={this.handleChange} required />
+
+                        <label htmlFor="experienceType">Experience Type:</label>
+                        <input type="text" id="experienceType" value={this.state.experienceType} onChange={this.handleChange} required />
+
+                        <label htmlFor="title">Title:</label>
+                        <input type="text" id="title" value={this.state.title} onChange={this.handleChange} required />
+
+                        <label htmlFor="description">Description:</label>
+                        <textarea id="description" rows="4" value={this.state.description} onChange={this.handleChange} required></textarea>
+
+                        <label htmlFor="startDate">Start Date:</label>
+                        <input type="date" id="startDate" value={this.state.startDate} onChange={this.handleChange} required />
+
+                        <label htmlFor="endDate">End Date:</label>
+                        <input type="date" id="endDate" value={this.state.endDate} onChange={this.handleChange} required />
+
+                        <button type="button" onClick={this.submitForm}>Submit</button>
+                    </form>
+                );
+            }
+        }
+
+        ReactDOM.render(<ExperienceForm />, document.getElementById('root'));
+    </script>
+</body>
+</html>
