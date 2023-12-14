@@ -7,6 +7,9 @@
  module.exports = {
    solidity: "0.8.17",
    defaultNetwork: 'sepolia',
+   paths : {
+      sources: "./smart-contracts",
+   },
    networks: {
      hardhat: {},
      sepolia: {
