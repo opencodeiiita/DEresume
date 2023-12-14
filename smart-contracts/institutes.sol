@@ -21,4 +21,8 @@ contract Institutes {
     function getInstitute(address instituteAddress) public view returns (Institute memory) {
         return institutes[instituteAddress];
     }
+
+    function isInstitute(address instituteAddress) public view returns (bool) {
+        return bytes(institutes[instituteAddress].name).length > 0;
+    }
 }
