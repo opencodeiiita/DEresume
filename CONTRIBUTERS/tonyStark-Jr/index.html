@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaMask Authentication</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.0.8/dist/ethers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <script>
+        window.addEventListener('load', async () => {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.enable();
+
+                    Swal.fire({
+                        title: 'MetaMask Connected',
+                        text: 'You have successfully connected to MetaMask.',
+                        icon: 'success',
+                        confirmButtonText: 'Great!'
+                    });
+
+                    const accounts = await window.web3.eth.getAccounts();
+                    const userWalletAddress = accounts[0];
+                    console.log('User Wallet Address:', userWalletAddress);
+
+
+                    const apiUrl = 'https://your-auth-api.com/authenticate';
+
+                    async function authenticateUser(walletAddress) {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ walletAddress }),
+                        });
+
+                        const data = await response.json();
+
+                        if (data.authenticated) {
+                            console.log('User authenticated successfully!');
+                        } else {
+                            console.error('Authentication failed.');
+                        }
+                    }
+
+
+                    authenticateUser(userWalletAddress);
+                } catch (error) {
+                    console.error('User denied account access:', error);
+                }
+            } else {
+                console.error('MetaMask is not installed.');
+            }
+        });
+    </script>
+</body>
+
+</html>
