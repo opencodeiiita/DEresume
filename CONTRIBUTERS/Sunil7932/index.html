@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaMask Wallet Authentication</title> 
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+  <script> 
+    window.addEventListener('load', async () => { 
+      if (window.ethereum) { 
+        window.web3 = new Web3(ethereum);
+        try { 
+          await ethereum.enable(); 
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' }); 
+          const userAddress = accounts[0]; 
+          console.log('User Wallet Address:', userAddress); 
+        } catch (error) { 
+          console.error('User denied account access or an error occurred:', error);
+        }
+      } 
+      else if (window.web3) { 
+        window.web3 = new Web3(web3.currentProvider); 
+        const accounts = await web3.eth.getAccounts(); 
+        const userAddress = accounts[0]; 
+        console.log('User Wallet Address:', userAddress); 
+      }
+      else { 
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+      }
+    });
+  </script>
+</body>
+</html>
