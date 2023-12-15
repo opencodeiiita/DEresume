@@ -5,12 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MetaMask Authentication</title>
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.0.8/dist/ethers.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        #notification {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #4CAF50;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="notification">MetaMask Connected! Wallet Address: <span id="walletAddress"></span></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.0.8/dist/ethers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
 
     <script>
         window.addEventListener('load', async () => {
@@ -18,18 +34,18 @@
                 window.web3 = new Web3(window.ethereum);
                 try {
                     await window.ethereum.enable();
-
-                    Swal.fire({
-                        title: 'MetaMask Connected',
-                        text: 'You have successfully connected to MetaMask.',
-                        icon: 'success',
-                        confirmButtonText: 'Great!'
-                    });
+                    console.log('MetaMask is connected.');
 
                     const accounts = await window.web3.eth.getAccounts();
                     const userWalletAddress = accounts[0];
                     console.log('User Wallet Address:', userWalletAddress);
 
+
+                    const notification = document.getElementById('notification');
+                    const walletAddressSpan = document.getElementById('walletAddress');
+
+                    walletAddressSpan.textContent = userWalletAddress;
+                    notification.style.display = 'block';
 
                     const apiUrl = 'https://your-auth-api.com/authenticate';
 
@@ -50,7 +66,6 @@
                             console.error('Authentication failed.');
                         }
                     }
-
 
                     authenticateUser(userWalletAddress);
                 } catch (error) {
