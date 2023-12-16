@@ -1,54 +1,28 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "../../smart-contracts//institutes.sol"; 
-
-contract SBT is ERC721URIStorage {
-    using SafeMath for uint256;
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
-
-    struct Skill {
-        string skillName;
-        uint256 skillLevel;
+contract InstituteRegistration {
+    struct Institute {
+        string name;
         string description;
     }
 
-    mapping(uint256 => Skill) public tokenSkills;
+    mapping(address => Institute) public institutes;
 
-    // Counter for generating unique token IDs
-    uint256 private tokenIdCounter;
+    event InstituteRegistered(address indexed walletAddress, string name, string description);
 
-    constructor() ERC721("Soul-Bound Token", "SBT") {}
-    
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal override {
-        require(from == address(0), "Token transfers are disabled");
-        super._beforeTokenTransfer(from, to, tokenId);
+    function isRegisteredInstitute(address walletAdd) external view returns (bool) {
+        return bytes(institutes[walletAdd].name).length > 0;
     }
 
-    function mint(
-        address to,
-        string memory tokenURI,
-        string memory skillName,
-        uint256 skillLevel,
-        string memory description
-    ) public {
-        require(Institutes.isInstitute(msg.sender), "Registered institutes are only allowed to mint SBTs");
-        tokenId = _tokenIds.current(); // Declare tokenId here
-        _mint(to, tokenId);
-        _tokenIds.increment();
-        Skill memory skill = Skill({
-            skillName: skillName,
-            skillLevel: skillLevel,
-            description: description
-        });
-        tokenSkills[tokenId] = skill;
+    function registerInstitute(string memory _name, string memory _description) external {
+        require(bytes(_name).length > 0, "Name must be filled");
+        require(bytes(_description).length > 0, "Description must be filled");
+        require(bytes(institutes[msg.sender].name).length == 0, "Address is already registered");
+
+        Institute memory newInstitute = Institute(_name, _description);
+        institutes[msg.sender] = newInstitute;
+
+        emit InstituteRegistered(msg.sender, _name, _description);
     }
 }
