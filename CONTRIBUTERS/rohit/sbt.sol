@@ -17,6 +17,7 @@ contract SBT is ERC721URIStorage {
         string description;
     }
 
+
     mapping(uint256 => Skill) public tokenSkills;
 
     // Counter for generating unique token IDs
