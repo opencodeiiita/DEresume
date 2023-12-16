@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MetaMask Authentication</title>
+</head>
+<body>
+  <h1>Welcome to MetaMask Authentication</h1>
+  <button id="loginButton">Login with MetaMask</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.5.2/web3.min.js"></script>
+  <script>
+    window.addEventListener('load', async () => {
+      if (typeof window.ethereum !== 'undefined') {
+        const web3 = new Web3(window.ethereum);
+
+        document.getElementById('loginButton').addEventListener('click', async () => {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+            const userAddress = accounts[0];
+            alert(`Logged in with Ethereum address: ${userAddress}`);
+            
+            fetchUsername(userAddress);
+
+          } catch (error) {
+            console.error(error);
+            alert('Error logging in with MetaMask. Please try again.');
+          }
+        });
+      } else {
+        alert('Please install MetaMask.');
+      }
+    });
+
+    async function fetchUsername(userAddress) {
+      const response = await fetch('https://your-api.com/fetchUsername', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userAddress })
+      });
+
+      const data = await response.json();
+
+      if (data.username) {
+        alert(`Username: ${data.username}`);
+      } else {
+        alert('Username not found for this Ethereum address.');
+      }
+    }
+  </script>
+</body>
+</html>
