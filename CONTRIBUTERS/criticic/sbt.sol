@@ -1,12 +1,3 @@
-// Implement the ERC-721 standard for the Soul-Bound Token (SBT) contract using OpenZeppelin's ERC721URIStorage.sol.
-// Make the solidity file in your names folder inside the contributors folder. You can add the skill parameters by observing the frontend page for sbtissue in the frontend folder.
-// NOTE:-you only have to make an ERC-721 token which can be used as a professional skill credential not a SBT .You will only name the file as sbt.sol.
-// should have the following parameters
-                    // experienceType
-                    // title
-                    // description
-                    // startDate
-                    // endDate
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
