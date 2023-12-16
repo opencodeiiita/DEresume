@@ -4,7 +4,7 @@ pragma solidity >=0.4.22 <0.9.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./institute.sol"; 
+import "../../smart-contracts//institutes.sol"; 
 
 contract SBT is ERC721URIStorage {
     using SafeMath for uint256;
