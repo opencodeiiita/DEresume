@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Access with MetaMask</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.0.8/dist/ethers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f8f8f8;
+        }
+
+        #content {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #userAddress {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        #error {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <h1>MetaMask Authentication</h1>
+        <p id="userAddress">User Address: Loading...</p>
+        <p id="error"></p>
+    </div>
+
+    <script>
+        window.addEventListener('load', async () => {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.enable();
+
+                    Swal.fire({
+                        title: 'MetaMask Connected',
+                        text: 'You have successfully connected to MetaMask.',
+                        icon: 'success',
+                        confirmButtonText: 'Great!'
+                    });
+
+                    const accounts = await window.web3.eth.getAccounts();
+                    const userWalletAddress = accounts[0];
+                    updateAddress(userWalletAddress);
+
+                    const apiUrl = 'https://your-auth-api.com/authenticate';
+
+                    authenticateUser(userWalletAddress, apiUrl);
+                } catch (error) {
+                    showError('User denied account access');
+                }
+            } else {
+                showError('MetaMask is not installed');
+            }
+        });
+
+        function updateAddress(address) {
+            document.getElementById('userAddress').textContent = `User Address: ${address}`;
+        }
+
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+        }
+
+        async function authenticateUser(walletAddress, apiUrl) {
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ walletAddress }),
+                });
+                const data = await response.json();
+
+                if (data.authenticated) {
+                    console.log('User authenticated successfully!');
+                } else {
+                    showError('Authentication failed');
+                }
+            } catch (error) {
+                showError('Error during authentication');
+            }
+        }
+    </script>
+</body>
+
+</html>
