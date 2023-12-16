@@ -1,39 +1,58 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol"; 
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "./institute.sol";
 
 contract SBT is ERC721URIStorage {
-    using SafeMath for uint256;
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+    Institutes institutes;
 
     struct Skill {
-        string skillName;
-        uint256 skillLevel;
+        string experienceType;
+        string title;
         string description;
+        string startDate;
+        string endDate;
     }
 
-    mapping(uint256 => Skill) public tokenSkills;
+    mapping(uint256 => Skill) public skills;
+    mapping(uint256 => bool) private _nonTransferrableTokens;
 
-    uint256 private tokenIdCounter;
+    constructor(address institutesAddress) ERC721("Soul-Bound Token", "SBT") {
+        institutes = Institutes(institutesAddress);
+    }
 
-    constructor() ERC721("Soul-Bound Token", "SBT") {}
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override virtual {
+        require(!_nonTransferrableTokens[tokenId], "You can't transfer non-transferrable SBTs");
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
+
     function mint(
-        uint256 tokenId,
         address to,
-        string memory tokenURI,
-        string memory skillName,
-        uint256 skillLevel,
-        string memory description
+        string memory experienceType,
+        string memory title,
+        string memory description,
+        string memory startDate,
+        string memory endDate
     ) public {
-      _mint(to,tokenId);
+        require(institutes.isInstitute(msg.sender), "Only registered institutes can mint SBTs");
+        uint256 tokenId = _tokenIds.current();
+        _mint(to, tokenId);
+        _tokenIds.increment();
 
-        Skill memory skill = Skill({
-          skillName:skillName, skillLevel:skillLevel, description:description
-          }
-          );
-        tokenSkills[tokenId] = skill;
+        Skill memory newSkill = Skill({
+            experienceType: experienceType,
+            title: title,
+            description: description,
+            startDate: startDate,
+            endDate: endDate
+        });
+        skills[tokenId] = newSkill;
+
+        // Setting the token as non-transferrable
+        _nonTransferrableTokens[tokenId] = true;
     }
-    
-  }
-
+}
