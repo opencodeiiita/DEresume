@@ -48,27 +48,4 @@ contract SBToken is ERC721URIStorage {
 
         return newTokenId;
     }
-
-    function setSkillTransferable(uint256 tokenId, bool transferable) external {
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "SBToken: Caller is not owner nor approved");
-        skillTransferable[tokenId] = transferable;
-    }
-
-    function transferToken(address to, uint256 tokenId) external {
-        require(skillTransferable[tokenId], "SBToken: Token is not transferable");
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "SBToken: Caller is not owner nor approved");
-        _safeTransfer(_msgSender(), to, tokenId, "");
-    }
-
-    function getTokenOwner(uint256 tokenId) external view returns (address) {
-        return ownerOf(tokenId);
-    }
-
-    function getTokenURI(uint256 tokenId) external view returns (string memory) {
-        return tokenURI(tokenId);
-    }
-
-    function getSkill(uint256 tokenId) external view returns (Skill memory) {
-        return tokenIdToSkill[tokenId];
-    }
 }
