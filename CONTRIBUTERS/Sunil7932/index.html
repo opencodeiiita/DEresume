@@ -22,24 +22,17 @@
           document.getElementById('connectionStatus').innerText = 'You are connected with MetaMask!';
         } catch (error) { 
           console.error('User denied account access or an error occurred:', error);
-          document.getElementById('connectionStatus').innerText = 'An error occurred: ' + error.message;
         }
       } 
       else if (window.web3) { 
         window.web3 = new Web3(web3.currentProvider); 
-        try {
-          const accounts = await web3.eth.getAccounts(); 
-          const userAddress = accounts[0]; 
-          document.getElementById('walletAddress').innerText = 'User Wallet Address: ' + userAddress;
-          document.getElementById('connectionStatus').innerText = 'You are connected with MetaMask!';
-        } catch (error) {
-          console.error('An error occurred:', error);
-          document.getElementById('connectionStatus').innerText = 'An error occurred: ' + error.message;
-        }
+        const accounts = await web3.eth.getAccounts(); 
+        const userAddress = accounts[0]; 
+        document.getElementById('walletAddress').innerText = 'User Wallet Address: ' + userAddress;
+        document.getElementById('connectionStatus').innerText = 'You are connected with MetaMask!';
       }
       else { 
         console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
-        document.getElementById('connectionStatus').innerText = 'Non-Ethereum browser detected. You should consider trying MetaMask!';
       }
     });
   </script>
