@@ -1,18 +1,15 @@
-// Implement the ERC-721 standard for the Soul-Bound Token (SBT) contract using OpenZeppelin's ERC721URIStorage.sol.
-// Make the solidity file in your names folder inside the contributors folder. You can add the skill parameters by observing the frontend page for sbtissue in the frontend folder.
-// NOTE:-you only have to make an ERC-721 token which can be used as a professional skill credential not a SBT .You will only name the file as sbt.sol.
-// should have the following parameters
-                    // experienceType
-                    // title
-                    // description
-                    // startDate
-                    // endDate
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "../../smart-contracts/institutes.sol";
 
 contract SBT is ERC721URIStorage {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+    Institutes institutes;
+
     struct Skill {
         string experienceType;
         string title;
@@ -23,18 +20,28 @@ contract SBT is ERC721URIStorage {
 
     mapping(uint256 => Skill) public skills;
 
-    constructor() ERC721("Soul-Bound Token", "SBT") {}
+    constructor(address institutesAddress) ERC721("SBT", "Soul-Bound-Tokens") {
+        institutes = Institutes(institutesAddress);
+    }
+
+    function _beforeTokenTransfer( address from, address to, uint256 tokenId ) internal override virtual { 
+        require(from == address(0), "You can't transfer SBTs");
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
 
     function mint(
         address to,
-        uint256 tokenId,
         string memory experienceType,
         string memory title,
         string memory description,
         string memory startDate,
         string memory endDate
     ) public {
+        require(institutes.isInstitute(msg.sender), "Only registered institutes can mint SBTs");
+        tokenId = _tokenIds.current();
         _mint(to, tokenId);
+        _tokenIds.increment();
+
 
         Skill memory newSkill = Skill({
             experienceType: experienceType,
