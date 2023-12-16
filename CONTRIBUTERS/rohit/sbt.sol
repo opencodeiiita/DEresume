@@ -3,56 +3,52 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./institute.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "../../smart-contracts/institutes.sol"; 
 
 contract SBT is ERC721URIStorage {
+    using SafeMath for uint256;
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    Institutes institutes;
 
     struct Skill {
-        string experienceType;
-        string title;
+        string skillName;
+        uint256 skillLevel;
         string description;
-        string startDate;
-        string endDate;
     }
 
-    mapping(uint256 => Skill) public skills;
-    mapping(uint256 => bool) private _nonTransferrableTokens;
+    mapping(uint256 => Skill) public tokenSkills;
 
-    constructor(address institutesAddress) ERC721("Soul-Bound Token", "SBT") {
-        institutes = Institutes(institutesAddress);
-    }
+    // Counter for generating unique token IDs
+    uint256 private tokenIdCounter;
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override virtual {
-        require(!_nonTransferrableTokens[tokenId], "You can't transfer non-transferrable SBTs");
+    constructor() ERC721("Soul-Bound Token", "SBT") {}
+    
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override {
+        require(from == address(0), "Token transfers are disabled");
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
     function mint(
         address to,
-        string memory experienceType,
-        string memory title,
-        string memory description,
-        string memory startDate,
-        string memory endDate
+        string memory tokenURI,
+        string memory skillName,
+        uint256 skillLevel,
+        string memory description
     ) public {
-        require(institutes.isInstitute(msg.sender), "Only registered institutes can mint SBTs");
-        uint256 tokenId = _tokenIds.current();
+        require(Institutes.isInstitute(msg.sender), "Registered institutes are only allowed to mint SBTs");
+        tokenId = _tokenIds.current(); // Declare tokenId here
         _mint(to, tokenId);
         _tokenIds.increment();
-
-        Skill memory newSkill = Skill({
-            experienceType: experienceType,
-            title: title,
-            description: description,
-            startDate: startDate,
-            endDate: endDate
+        Skill memory skill = Skill({
+            skillName: skillName,
+            skillLevel: skillLevel,
+            description: description
         });
-        skills[tokenId] = newSkill;
-
-        // Setting the token as non-transferrable
-        _nonTransferrableTokens[tokenId] = true;
+        tokenSkills[tokenId] = skill;
     }
 }
