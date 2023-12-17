@@ -49,4 +49,16 @@ contract Institutes is ERC721("SecurityToken", "SBT") {
 
         institutes[msg.sender] = newInstitute;
     }
+
+    function transferFrom(address from, address to, uint256 tokenId) public override {
+        revert("SBTs are non-transferrable");
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override {
+        revert("SBTs are non-transferrable");
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override {
+        revert("SBTs are non-transferrable");
+    }
 }
