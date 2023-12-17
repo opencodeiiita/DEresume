@@ -24,10 +24,28 @@ contract SBT is ERC721URIStorage {
         institutes = Institutes(institutesAddress);
     }
 
+
+    // Override ERC721 functions to prevent transfers
     function _beforeTokenTransfer( address from, address to, uint256 tokenId ) internal override virtual { 
         require(from == address(0), "You can't transfer SBTs");
         super._beforeTokenTransfer(from, to, tokenId);
     }
+    function _transfer( address from, address to, uint256 tokenId ) internal override virtual { 
+        revert("You can't transfer SBTs");
+    }
+    function transferFrom(address from, address to, uint256 tokenId) public override virtual {
+        revert("You can't transfer SBTs");
+    }
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override virtual {
+        revert("You can't transfer SBTs");
+    }
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override virtual {
+        revert("You can't transfer SBTs");
+    }
+    function _safeTransfer(address from, address to, uint256 tokenId, bytes memory _data) internal override virtual {
+        revert("You can't transfer SBTs");
+    }
+
 
     function mint(
         address to,
