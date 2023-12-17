@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MetaMask Authentication</title>
+</head>
+<body>
+  <button onclick="connectMetaMask()">Connect to MetaMask</button>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+  <script>
+    async function connectMetaMask() {
+      if (typeof window.ethereum !== 'undefined') {
+        try 
+        {
+            //Metamask popup requesting user permission for connection with website
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            // Connected to MetaMask
+
+            const web3 = new Web3(window.ethereum);
+
+            const accounts = await web3.eth.getAccounts();
+            if (accounts.length > 0) {
+                const userAddress = accounts[0];
+                console.log('User Address:', userAddress);
+            } 
+            else 
+            {
+                console.error('No Ethereum accounts found');
+            }
+        } 
+        catch (error) 
+        {
+          console.error('User denied access to MetaMask or an error occurred:', error);
+        }
+      } 
+      else 
+      {
+        console.error('MetaMask is not installed');
+      }
+    }
+  </script>
+</body>
+</html>
