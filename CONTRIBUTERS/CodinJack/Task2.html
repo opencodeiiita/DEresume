@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metamask Authentication</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-200">
+    <div class="text-center p-4 bg-white rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">MetaMask Authentication</h1>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-blue-700 rounded" id="loginButton">Connect with MetaMask</button>
+        <div id="wallet"></div>
+        <div id="stat"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginButton').addEventListener('click', async () => {
+            if (window.ethereum) {
+                try {
+                    await ethereum.enable();
+                    const userAddress = (await ethereum.request({ method: 'eth_requestAccounts' }))[0];
+                    updateElements(userAddress);
+                } catch (error) {
+                    console.error('Error: ', error);
+                }
+            } else if (window.web3) {
+                const userAddress = (await web3.eth.getAccounts())[0];
+                updateElements(userAddress);
+            } else {
+                console.log('A non-Ethereum browser has been detected. Try MetaMask!');
+            }
+        });
+
+        function updateElements(userAddress) {
+            document.getElementById('wallet').innerText = 'User Wallet Address: ' + userAddress;
+            document.getElementById('stat').innerText = 'Connected with MetaMask!';
+        }
+    </script>
+</body>
+</html>
