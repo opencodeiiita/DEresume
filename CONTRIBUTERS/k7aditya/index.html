@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MetaMask Authentication</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+</head>
+<body>
+  <h1>MetaMask Authentication</h1>
+  
+  <button id="connectButton">Connect MetaMask</button>
+  
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      const connectButton = document.getElementById('connectButton');
+
+      connectButton.addEventListener('click', async () => {
+        if (window.ethereum) {
+          const web3 = new Web3(window.ethereum);
+
+          try {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await web3.eth.getAccounts();
+
+            if (accounts.length > 0) {
+              const userWalletAddress = accounts[0]; 
+              console.log('User wallet address:', userWalletAddress);
+              
+              const addressElement = document.createElement('p');
+              addressElement.textContent = `User wallet address: ${userWalletAddress}`;
+              document.body.appendChild(addressElement);
+            } else {
+              console.log('No MetaMask accounts available');
+            }
+          } catch (error) {
+            
+            console.error(error);
+            alert('Error logging in... pls try again later');
+
+          }
+        } else {
+          console.log('Please install MetaMask to use this feature');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
