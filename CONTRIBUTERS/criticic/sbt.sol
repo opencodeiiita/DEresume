@@ -1,11 +1,11 @@
-// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "../../smart-contracts/institutes.sol";
+import "./institutes.sol";
 
-contract SBT is ERC721URIStorage {
+contract SBT is ERC721URIStorage, ERC721Enumerable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Institutes institutes;
@@ -18,10 +18,10 @@ contract SBT is ERC721URIStorage {
         string description;
         uint256 startDate;
         uint256 endDate;
-        string industry,
-        string location,
-        string skills,
-        uint256 expirationDate
+        string industry;
+        string location;
+        string skills;
+        uint256 expirationDate;
     }
 
     mapping(uint256 => Skill) public skills;
@@ -87,7 +87,7 @@ contract SBT is ERC721URIStorage {
         require(bytes(skills).length > 0, "Skills are required");
         require(expirationDate >= 0, "Expiration date is required");
         
-        tokenId = _tokenIds.current();
+        uint256 tokenId = _tokenIds.current();
         _mint(to, tokenId);
         _tokenIds.increment();
 
