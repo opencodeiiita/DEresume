@@ -1,11 +1,11 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./institutes.sol";
 
-contract SBT is ERC721URIStorage, ERC721Enumerable {
+contract SBT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Institutes institutes;
@@ -20,7 +20,7 @@ contract SBT is ERC721URIStorage, ERC721Enumerable {
         uint256 endDate;
         string industry;
         string location;
-        string skills;
+        string skillDetails;
         uint256 expirationDate;
     }
 
@@ -30,21 +30,16 @@ contract SBT is ERC721URIStorage, ERC721Enumerable {
         institutes = Institutes(institutesAddress);
     }
 
-    function _beforeTokenTransfer( address from, address to, uint256 tokenId ) internal override virtual { 
+    function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
         require(from == address(0), "You can't transfer SBTs");
-        super._beforeTokenTransfer(from, to, tokenId);
+
+        super.transferFrom(from, to, tokenId);
     }
-    function _transfer( address from, address to, uint256 tokenId ) internal override virtual { 
-        revert("You can't transfer SBTs");
-    }
-    function safeTransferFrom( address from, address to, uint256 tokenId ) public override virtual { 
-        revert("You can't transfer SBTs");
-    }
-    function safeTransferFrom( address from, address to, uint256 tokenId, bytes memory _data ) public override virtual { 
-        revert("You can't transfer SBTs");
-    }
-    function transferFrom( address from, address to, uint256 tokenId ) public override virtual { 
-        revert("You can't transfer SBTs");
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override(ERC721, IERC721) {
+        require(from == address(0), "You can't transfer SBTs");
+
+        super.safeTransferFrom(from, to, tokenId, _data);
     }
 
     function tokenHasExpired(uint256 tokenId) public view returns (bool) {
@@ -53,27 +48,16 @@ contract SBT is ERC721URIStorage, ERC721Enumerable {
         }
         return skills[tokenId].expirationDate < block.timestamp;
     }
-
-    function getSkills(address userAddress) public view returns (Skill[] memory) {
-        uint256 tokenCount = balanceOf(userAddress);
-        Skill[] memory skillList = new Skill[](tokenCount);
-        for (uint256 i = 0; i < tokenCount; i++) {
-            uint256 tokenId = tokenOfOwnerByIndex(userAddress, i);
-            skillList[i] = skills[tokenId];
-        }
-        return skillList;
-    }
-
     function mint(
         address to,
         string memory experienceType,
         string memory title,
         string memory description,
-        uint256 memory startDate,
-        uint256 memory endDate,
+        uint256 startDate,
+        uint256 endDate,
         string memory industry,
         string memory location,
-        string memory skills,
+        string memory skillDetails,
         uint256 expirationDate
     ) public {
         require(institutes.isInstitute(msg.sender), "Only registered institutes can mint SBTs");
@@ -84,7 +68,7 @@ contract SBT is ERC721URIStorage, ERC721Enumerable {
         require(endDate > 0, "End date is required");
         require(bytes(industry).length > 0, "Industry is required");
         require(bytes(location).length > 0, "Location is required");
-        require(bytes(skills).length > 0, "Skills are required");
+        require(bytes(skillDetails).length > 0, "Skills are required");
         require(expirationDate >= 0, "Expiration date is required");
         
         uint256 tokenId = _tokenIds.current();
@@ -100,7 +84,7 @@ contract SBT is ERC721URIStorage, ERC721Enumerable {
             endDate: endDate,
             industry: industry,
             location: location,
-            skills: skills,
+            skillDetails: skillDetails,
             expirationDate: expirationDate
         });
 
