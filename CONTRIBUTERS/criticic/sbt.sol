@@ -34,6 +34,18 @@ contract SBT is ERC721URIStorage {
         require(from == address(0), "You can't transfer SBTs");
         super._beforeTokenTransfer(from, to, tokenId);
     }
+    function _transfer( address from, address to, uint256 tokenId ) internal override virtual { 
+        revert("You can't transfer SBTs");
+    }
+    function safeTransferFrom( address from, address to, uint256 tokenId ) public override virtual { 
+        revert("You can't transfer SBTs");
+    }
+    function safeTransferFrom( address from, address to, uint256 tokenId, bytes memory _data ) public override virtual { 
+        revert("You can't transfer SBTs");
+    }
+    function transferFrom( address from, address to, uint256 tokenId ) public override virtual { 
+        revert("You can't transfer SBTs");
+    }
 
     function tokenHasExpired(uint256 tokenId) public view returns (bool) {
         if (skills[tokenId].expirationDate == 0) {
