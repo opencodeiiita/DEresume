@@ -1,0 +1,5 @@
+For compilation:
+npx hardhat compile
+
+For deployment:
+npx hardhat run deploy.js --network <networkName>
