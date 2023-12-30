@@ -1,0 +1,5 @@
+Command for compilation:
+npx hardhat compile
+
+Command for deployment of contracts in hardhat environment:
+npx hardhat run deploy.js --network <network-name>
