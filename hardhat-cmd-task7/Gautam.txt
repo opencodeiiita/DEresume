@@ -1,0 +1,12 @@
+Compilation Command:
+
+To compile your Solidity contracts, we can use the following command: 
+npx hardhat compile
+This will compile the contracts and generate the artifacts in the artifacts/ directory.
+
+
+Command for deployment of contracts in hardhat environment:
+
+npx hardhat run scripts/deploy.js --network <your_network>
+Replace <your_network> with the desired network, such as rinkeby, mainnet, etc.
+
