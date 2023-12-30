@@ -1,0 +1,12 @@
+1. Install Hardhat:
+  npm install --save-dev hardhat
+
+2. Compile Contracts: To compile your contracts, you can use the following command:
+
+   npx hardhat compile
+
+This command will compile your Solidity contracts and generate the artifacts in the artifacts directory.
+
+3. Run Deployment Script: Assuming you have a deployment script named deploy.js, you can deploy your contracts using the following command:
+
+   npx hardhat run scripts/deploy.js --network <networkName>
