@@ -1,0 +1,12 @@
+Process to initialise a hardhat project:
+- `npm init -y`
+- `npm install --save-dev hardhat`
+
+Initialise hardhat:
+- Make `hardhat.config.js` by running command: `npx hardhat`
+
+Compile:
+- `npx hardhat compile`
+
+Deploy:
+- `npx hardhat run connections/deploy.js`
