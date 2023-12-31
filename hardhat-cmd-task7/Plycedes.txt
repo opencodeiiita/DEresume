@@ -1,0 +1,16 @@
+Command to Compile:
+npx hardhat compile
+
+Command to deploy the smart contract in this project:
+npx hardhat run ./connections/deploy.js --network [network-name]
+
+Furthermore we can also use "hardhat-deploy-ethers" package to add an inbuilt deploy task to 
+the hardhat.
+After adding this package we can create a directory with the name "deploy" and put all of our
+deploy scripts in that directory and run the command
+
+npx hardhat deploy
+
+And the "hardhat-deploy-ethers" package will look for the "deploy" directory and execute every
+single script in that directory.
+
