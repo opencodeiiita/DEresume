@@ -1,8 +1,0 @@
-Compile Contracts:
-npx hardhat compile
-
-Run Deployment Script:
-npx hardhat run deploy.js
-
-Compile and Deploy Together:
-npx hardhat run deploy.js --network <network-name>
