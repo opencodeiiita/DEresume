@@ -1,0 +1,7 @@
+For Compilation->
+npx hardhat compile
+
+For Deployment-> Assumtion: you have a deployment script named as deploy.js then you can deploy your contract using this commond.
+
+npx hardhat run --network <your-network> scripts/deploy.js
+
