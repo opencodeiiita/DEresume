@@ -1,0 +1,6 @@
+Initially, hardhat is installed by executing the following command:
+npm install --save-dev hardhat
+Subsequently, the deployment script is executed using the command:
+npx hardhat run deploy.js --network <network-name>
+Finally, for compilation purposes, the following command is used:
+npx hardhat compile
