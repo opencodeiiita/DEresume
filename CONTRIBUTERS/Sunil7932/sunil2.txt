@@ -1,0 +1,11 @@
+for Compilation->
+
+npx hardhat compile
+
+
+
+For Deployment-> Assumtion: if you have a deployment script named as deploy.js then you can deploy your contract using this command.
+
+
+npx hardhat run --network <your-network> scripts/deploy.js
+
