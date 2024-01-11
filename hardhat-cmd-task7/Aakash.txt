@@ -1,0 +1,5 @@
+while compilation:
+npx hardhat compile
+
+during deployment:
+npx hardhat run deploy.js --network <networkName>
