@@ -1,0 +1,21 @@
+*
+{
+    margin:0;
+    padding:0;
+}
+#particles-js{
+background-color:rgb(1, 1, 8);
+height:700px;
+}
+#root{
+background:#FFF;
+opacity:0.9;
+padding:2em;
+border:#ccc 2px solid;
+position:absolute;
+top:100px;
+left:400px;
+
+
+
+}
